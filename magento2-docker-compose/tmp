@@ -1,0 +1,23 @@
+composer create-project --repository=https://repo.magento.com/ magento/project-community-edition .
+
+bin/magento setup:install \
+--base-url=http://m2.tld \
+--db-host=mysql \
+--db-name=magento \
+--db-user=root \
+--db-password=root \
+--backend-frontname=admin \
+--admin-firstname=admin \
+--admin-lastname=admin \
+--admin-email=admin@admin.com \
+--admin-user=admin \
+--admin-password=admin1234 \
+--language=hu_HU \
+--currency=HUF \
+--timezone=America/Chicago \
+--use-rewrites=1
+
+php bin/magento deploy:mode:set developer
+php bin/magento cache:disable
+php bin/magento cache:clean
+php bin/magento cache:flush

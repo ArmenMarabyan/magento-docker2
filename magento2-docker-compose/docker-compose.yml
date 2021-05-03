@@ -1,0 +1,59 @@
+version: '3'
+#https://github:com/DavidBelicza/magento2-docker-compose/blob/master/tmp:
+services:
+
+  php:
+    container_name: ${PREFIX}_php
+    image: ${PREFIX}_php
+    build: ./php
+
+  fpm:
+    container_name: ${PREFIX}_fpm
+    image: ${PREFIX}_fpm
+    build: ./fpm
+    depends_on:
+      - php
+    restart: always
+    expose:
+      - 9000
+    volumes:
+      - ${SOURCE_DIR}:${TARGET_DIR}
+
+  composer:
+    container_name: ${PREFIX}_composer
+    image: ${PREFIX}_composer
+    build: ./composer
+    depends_on:
+      - php
+    restart: always
+    volumes:
+      - ${SOURCE_DIR}:${TARGET_DIR}
+    stdin_open: true
+    tty: true
+
+  nginx:
+    container_name: ${PREFIX}_nginx
+    image: ${PREFIX}_nginx
+    build: ./nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ${SOURCE_DIR}:${TARGET_DIR}
+      - ./nginx/sites:/etc/nginx/conf.d
+    links:
+      - fpm
+    stdin_open: true
+    tty: true
+
+  mysql:
+    image: mysql:5.7
+    container_name: ${PREFIX}_mysql
+    ports:
+      - "3307:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: magento
