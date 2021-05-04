@@ -104,8 +104,10 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    container_name: ${PREFIX}_rabbitmq
     ports:
       - "15672:15672"
       - "5672:5672"
     volumes:
-      - rabbitmqdata:/var/lib/rabbitmq
+      - ${RABBIT_MQ_DATA}:/var/lib/rabbitmq/
+      - ${RABBIT_MQ_LOGS}:/var/log/rabbitmq

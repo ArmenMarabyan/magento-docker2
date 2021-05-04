@@ -1,3 +1,5 @@
 /.idea
 /src
 /databases
+/queues/rabbitmqdata
+/queues/rabbitmqlogs
