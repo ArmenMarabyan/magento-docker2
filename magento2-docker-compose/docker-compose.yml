@@ -101,3 +101,11 @@ services:
     volumes:
       - ${REDIS_PATH_CONF}:/redis.conf
     command: [ "redis-server", "/redis.conf" ]
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
