@@ -1,5 +1,5 @@
 version: '3'
-#https://github:com/DavidBelicza/magento2-docker-compose/blob/master/tmp:
+
 services:
 
   php:
@@ -46,14 +46,47 @@ services:
     stdin_open: true
     tty: true
 
-  mysql:
-    image: mysql:5.7
-    container_name: ${PREFIX}_mysql
-    ports:
-      - "3307:3306"
-    command: --default-authentication-plugin=mysql_native_password
+#  mysql:
+#    image: mysql:5.7
+#    container_name: ${PREFIX}_mysql
+#    ports:
+#      - "3307:3306"
+#    command: --default-authentication-plugin=mysql_native_password
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_USER: root
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: magento
+
+  db:
+    image: mariadb:10.4
+    container_name: ${PREFIX}_db
     restart: always
     environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: magento
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=q1w2e3r4
+    volumes:
+      - ${DB_PATH_HOST}:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+    depends_on:
+      - db
+
+  elasticsearch:
+    image: elasticsearch:7.8.1
+    container_name: ${PREFIX}_elasticsearch
+#    networks:
+#      - magento-demo-network
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      discovery.type: single-node

@@ -1,21 +1,24 @@
 composer create-project --repository=https://repo.magento.com/ magento/project-community-edition .
 
-bin/magento setup:install \
---base-url=http://m2.tld \
---db-host=mysql \
---db-name=magento \
---db-user=root \
---db-password=root \
---backend-frontname=admin \
---admin-firstname=admin \
---admin-lastname=admin \
---admin-email=admin@admin.com \
---admin-user=admin \
---admin-password=admin1234 \
---language=hu_HU \
---currency=HUF \
---timezone=America/Chicago \
---use-rewrites=1
+php -dmemory_limit=5G bin/magento setup:install \
+  --base-url=http://localhost:8080 \
+  --db-host=db \
+  --db-name=magento \
+  --db-user=root \
+  --db-password=root \
+  --admin-firstname=admin \
+  --admin-lastname=admin \
+  --admin-email=admin@admin.com \
+  --admin-user=admin \
+  --admin-password=admin123 \
+  --language=en_US \
+  --currency=USD \
+  --timezone=America/New_York \
+  --use-rewrites=1 \
+  --elasticsearch-host=elasticsearch \
+  --elasticsearch-port=9200
+
+
 
 php bin/magento deploy:mode:set developer
 php bin/magento cache:disable

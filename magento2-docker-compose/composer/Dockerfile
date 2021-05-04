@@ -1,7 +1,5 @@
 FROM magento_php
 
-MAINTAINER David Belicza "87.bdavid@gmail.com"
-
 RUN apt-get install -y \
     curl \
     unzip
