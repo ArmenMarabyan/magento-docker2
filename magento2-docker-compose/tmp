@@ -23,4 +23,11 @@ php bin/magento cache:disable
 php bin/magento cache:clean
 php bin/magento cache:flush
 
+
+
+
 https://www.endpoint.com/blog/2020/08/27/containerizing-magento-with-docker-compose-elasticsearch-mysql-and-magento
+
+//redis healthcheck
+redis-cli ping 2>&1 | grep -o '^PONG1$' > /dev/null || exit 1
+
