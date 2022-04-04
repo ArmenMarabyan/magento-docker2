@@ -37,7 +37,7 @@ services:
     build: ./nginx
     restart: always
     ports:
-      - "8080:80"
+      - "127.0.0.1:8080:80"
     volumes:
       - ${SOURCE_DIR}:${TARGET_DIR}
       - ./nginx/sites:/etc/nginx/conf.d
@@ -52,6 +52,16 @@ services:
       timeout: 20s
       retries: 3
 #      start-period: 10s
+
+  varnish:
+    container_name: ${PREFIX}_varnish
+    depends_on:
+      - nginx
+    build: ./varnish
+    links:
+      - nginx
+    ports:
+      - "127.0.0.1:6081:6081"
 
   db:
     image: mariadb:10.4
@@ -106,7 +116,7 @@ services:
     working_dir: ${APP_PATH_CONTAINER}
     restart: always
     ports:
-      - "6380:6379"
+      - "127.0.0.1:6380:6379"
     volumes:
       - ${REDIS_PATH_CONF}:/redis.conf
       - ./scripts/healthcheck/redis.sh:/bin/healthcheck.sh

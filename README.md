@@ -1,4 +1,4 @@
-# Magento2 (PHP7.4 + Redis + RabbitMQ + ElasticSearch + PhpMyAdmin + MariaDB + Nginx) docker
+# Magento2 (PHP7.4 + Redis + RabbitMQ + ElasticSearch + PhpMyAdmin + MariaDB + Nginx + Varnish) docker
 
 ## Infrastructure overview
 * Container 1: php
@@ -10,6 +10,7 @@
 * Container 7: elasticsearch
 * Container 8: redis
 * Container 9: rabbitmq
+* Container 10: varnish
 
 ### Build and Installation
 Step 1: Build
